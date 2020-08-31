@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width" />
+    <meta name="author" content="www.yanshisan.cn" />
+    <meta name="robots" content="all" />
+    <title>博客</title>
+    <link rel="stylesheet" href= "{% static "font-awesome/css/font-awesome.min.css"%}">
+    <link rel="stylesheet" href= "{% static "layui/css/layui.css"%}" />
+    <link rel="stylesheet" href= "{% static "css/master.css"%}"/>
+    <link rel="stylesheet" href= "{% static "css/gloable.css"%}"/>
+    <link rel="stylesheet" href= "{% static "css/nprogress.css"%}"/>
+    <link rel="stylesheet" href= "{% static "css/blog.css"%}"/>
+</head>
+<body>
+    <div class="header">
+    </div>
+    <header class="gird-header">
+        <div class="header-fixed">
+            <div class="header-inner">
+                <a href="javascript:void(0)" class="header-logo" id="logo">Syc</a>
+                <nav class="nav" id="nav">
+                    <ul>
+                        <li><a href="/index/">首页</a></li>
+                        <li><a href="/article/">博客</a></li>
+                        <li><a href="/message/">留言</a></li>
+                        <li><a href="/link/">友链</a></li>
+                    </ul>
+                </nav>
+                {% if user.is_authenticated %}
+                    <a href="/userprofile/logout/" class="blog-user" title="点击退出登陆">
+                    {{ user.username }}
+                </a>
+                {% else %}
+                    <a href="/userprofile/login/" class="blog-user">
+                        登录
+                    </a>
+                {% endif %}
+                <a class="phone-menu">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </a>
+            </div>
+        </div>
+    </header>
+    <div class="doc-container" id="doc-container">
+        <div class="container-fixed">
+		    <div class="col-content">
+		        <div class="inner">
+
+		            <article class="article-list bloglist" id="LAY_bloglist" >
+                        {% for article in articles %}
+						<section class="article-item zoomIn article">
+							<h5 class="title">       
+								<span class="fc-blue">【{{ article.state }}】</span>
+								<a href="/read/{{ article.id }}">{{ article.title }}</a>
+							</h5>
+							<div class="content">       
+								<a href="/read/{{ article.id }}" class="cover img-light">
+									<img src="/static/image/cover/2019121192339714.png">       
+								</a>
+								<p style="word-wrap:break-word; word-break:normal;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 5; overflow: hidden;">{{ article.body }}</p>
+							</div>   
+							<div class="read-more">       
+								<a href="/read/{{ article.id }}" class="fc-black f-fwb">阅读全文</a>
+							</div>    
+							<aside class="f-oh footer">       
+								<div class="f-fl tags">           
+									<span class="fa fa-tags fs-16"></span>           
+									<a class="tag">{{ article.label }}</a>
+								</div>       
+								<div class="f-fr">           
+									<span class="read">               
+										<i class="fa fa-eye fs-16"></i>               
+										<i class="num">{{ article.read }}</i>
+									</span>           
+									<span class="ml20">               
+										<i class="fa fa-comments fs-16"></i>               
+										<a href="javascript:void(0)" class="num fc-grey">{{ article.comment_count }}</a>
+									</span>       
+								</div>   
+							</aside>
+						</section>
+                        {% endfor %}
+		            </article>
+		        </div>
+		    </div>
+		    <div class="col-other">
+		        <div class="inner">
+					<div class="other-item" id="categoryandsearch">
+
+			    		<ul class="category mt20" id="category">
+                            <li data-index="0" class="slider" style="top: 0px;"></li>
+                            <li data-index="1" class=""><a href="/article/">全部文章</a></li>
+                            <li data-index="2" class=""><a href="/article/?key=个人日记">个人日记</a></li>
+                            <li data-index="3" class=""><a href="/article/?key=python">python</a></li>
+                            <li data-index="4"><a href="/article/?key=django">django</a></li>
+                    </ul>
+					</div>
+					<!--右边悬浮 平板或手机设备显示-->
+					<div class="category-toggle"><i class="layui-icon">&#xe603;</i></div>
+					<div class="article-category">
+					    <div class="article-category-title">分类导航</div>
+                            <ul class="category mt20" id="category">
+                                <li data-index="0" class="slider" style="top: 0px;"></li>
+                                <li data-index="1" class=""><a href="/Blog/Article">全部文章</a></li>
+                                <li data-index="2" class=""><a href="/article/?key=个人日记">个人日记</a></li>
+                                <li data-index="3" class=""><a href="/article/?key=python">python</a></li>
+                                <li data-index="4"><a href="/article/?key=django">django</a></li>
+                        </ul>
+
+					    <div class="f-cb"></div>
+					</div>
+					<!--遮罩-->
+					<div class="blog-mask animated layui-hide"></div>
+					<div class="other-item">
+					    <h5 class="other-item-title">热门文章</h5>
+					    <div class="inner">
+					        <ul class="hot-list-article">
+					                <li> <a href="/Blog/Read/9">2018最新版QQ音乐api调用</a></li>
+
+					        </ul>
+					    </div>
+					</div>
+					<div class="other-item">
+					    <h5 class="other-item-title">置顶推荐</h5>
+					    <div class="inner">
+					        <ul class="hot-list-article">
+
+					                <li> <a href="/Blog/Read/9">2018最新版QQ音乐api调用</a></li>
+
+					        </ul>
+					    </div>
+					</div>
+					<div class="other-item">
+					    <h5 class="other-item-title">最近访客</h5>
+					    <div class="inner">
+					        <dl class="vistor">
+
+					                <dd><a href="javasript:;"><img src="https://thirdqq.qlogo.cn/qqapp/101465933/28B021E0F5AF0A4B9B781A24329FE897/100"><cite>如初</cite></a></dd>
+					        </dl>
+					    </div>
+					</div>
+		        </div>
+		    </div>
+		</div>
+    </div>
+    <footer class="grid-footer">
+        <div class="footer-fixed">
+            <div class="copyright">
+                <div class="info">
+                    <div class="contact">
+                        <a href="javascript:void(0)" class="github" target="_blank"><i class="fa fa-github"></i></a>
+                        <a href="https://wpa.qq.com/msgrd?v=3&uin=930054439&site=qq&menu=yes" class="qq" target="_blank" title="930054439"><i class="fa fa-qq"></i></a>
+                        <a href="https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=gbiysbG0tbWyuMHw8K-i7uw" class="email" target="_blank" title="930054439@qq.com"><i class="fa fa-envelope"></i></a>
+                        <a href="javascript:void(0)" class="weixin"><i class="fa fa-weixin"></i></a>
+                    </div>
+                    <p class="mt05">
+                        Copyright &copy; 2018-2018 燕十三 All Rights Reserved V.1.0.0 蜀ICP备18008600号
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="{% static "layui/layui.js"%}"></script>
+    <script src="{% static "js/yss/gloable.js"%}"></script>
+    <script src="{% static "js/plugins/nprogress.js"%}"></script>
+    <script>NProgress.start();</script>
+ 	<script src="{% static "js/yss/article.js"%}"></script>
+    <script> 
+        window.onload = function () {
+            NProgress.done();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-Hans-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width" />
+    <title>登陆</title>
+    <link href="{% static 'layui/css/layui.css'%}" rel="stylesheet" type="text/css">
+    <link href="{% static 'font-awesome/css/font-awesome.min.css'%}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/index_style.css'%}" rel="stylesheet" type="text/css">
+    <link href='{% static 'css/animate.min.css'%}' rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="section" id="section1">
+        <div class="fp-tablecell">
+            <div class="page1">
+                <div class="nav wow zoomIn" data-wow-duration="2s">
+                    {% csrf_token %}
+                    <form method="post" action=".">
+                        {% csrf_token %}
+                        <!-- 账号 -->
+                        <div class="form-group">
+                            <label for="username">账号</label>
+                            <input type="text" class="form-control" id="username" name="username">
+                            <p style="color:red;">{{ error.username.0 }}</p>
+                        </div>
+                        <!-- 密码 -->
+                        <div class="form-group">
+                            <label for="password">密码</label>
+                            <input type="password" class="form-control" id="password" name="password">
+                        </div>
+                            <button type="submit" class="btn btn-primary">登陆</button>
+                            <a class="btn btn-primary" style="margin-top: 0px" href="/userprofile/register/">注册</a>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'layui/layui.js'%}"></script>
+    <script src="{% static 'js/wow.min.js'%}"></script>
+    <script src="{% static 'js/index.js'%}"></script>
+</body>
+</html>
