@@ -39,6 +39,7 @@ class Article(models.Model):
     label = models.CharField(max_length=32,choices=Label,default='python')
     state = models.CharField(max_length=32,choices=State,default='原创')
     read = models.IntegerField(default=0)
+    picture = models.ImageField(max_length=255,upload_to='article_img',blank=True,null=True)
 
     class Meta:
         ordering = ['-create']
@@ -67,3 +68,11 @@ class Message(models.Model):
     body = models.TextField()
     class Meta:
         ordering=['-create']
+
+class Diary(models.Model):
+    body = models.TextField()
+    create = models.DateField(auto_now_add=True)
+    class Meta:
+        ordering = ['-create']
+        verbose_name='日记'
+        verbose_name_plural='日记'

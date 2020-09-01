@@ -1,16 +1,20 @@
 from django.shortcuts import render,redirect
-from .models import Article,Link,Message
+from .models import Article,Link,Message,Diary
 from comment.models import Comment
 from django.db.models import Count
 # Create your views here.
 
+
 def index(request):
-    return render(request,'index.html')
+    hot_article = Article.objects.values().order_by('-read')
+    articles = hot_article[0:3]
+    context = {'articles':articles}
+    return render(request,'index.html',context)
 def read(request,id):
     article = Article.objects.get(id = id)
     article.read += 1
     article.save()
-    comments = Comment.objects.filter(article_id=id).values()
+    comments = Comment.objects.filter(article_id=id).values('body','createtime','user__username')
     url = request.get_full_path()
     context = {'article':article,'comments':comments,'url':url}
 
@@ -22,11 +26,15 @@ def article(request):
     if key:
         articles = Article.objects.filter(label=key).annotate(comment_count = Count('article_comment')).values('title','create','update','body','label','state','read','comment_count','id')
     # 需要传递给模板（templates）的对象
-    context = {'articles': articles}
+    hots = Article.objects.values('id','title').order_by('-read')
+    hots = hots[0:4]
+    context = {'articles': articles,'hots':hots}
     # render函数：载入模板，并返回context对象
     return render(request,'article.html',context)
 def diary(request):
-    return render(request,'diary.html')
+    diarys = Diary.objects.values()
+    context = {'diarys':diarys}
+    return render(request,'diary.html',context)
 def link(request):
     links = Link.objects.all()
     context = {'links':links}
@@ -42,4 +50,6 @@ def message(request):
         return redirect('/message/')
     return render(request,'message.html',context)
 def about(request):
-    return render(request,'about.html')
+    links = Link.objects.all()
+    context = {'links': links}
+    return render(request,'about.html',context)

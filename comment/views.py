@@ -2,7 +2,9 @@ from django.shortcuts import render,redirect
 
 # Create your views here.
 from comment import models
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def comment(request):
     if request.method == 'POST':
         data = request.POST

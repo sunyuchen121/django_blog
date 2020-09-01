@@ -22,18 +22,26 @@
     <header class="gird-header">
         <div class="header-fixed">
             <div class="header-inner">
-                <a href="javascript:void(0)" class="header-logo" id="logo">Mr.Yss</a>
+                <a href="javascript:void(0)" class="header-logo" id="logo">Syc</a>
                 <nav class="nav" id="nav">
                     <ul>
-                        <li><a href="index.html">首页</a></li>
-                        <li><a href="article.html">博客</a></li>
-                        <li><a href="message.html">留言</a></li>
-                        <li><a href="link.html">友链</a></li>
+                        <li><a href="/index/">首页</a></li>
+                        <li><a href="/article/">博客</a></li>
+                        <li><a href="/message/">留言</a></li>
+                        <li><a href="/link/">友链</a></li>
+                        <li><a href="/diary/">日记</a></li>
+                        <li><a href="/about/">关于我</a></li>
                     </ul>
                 </nav>
-                <a href="/User/QQLogin" class="blog-user">
-                    <i class="fa fa-qq"></i>
+                {% if user.is_authenticated %}
+                    <a class="blog-user">
+                    {{ user.username }}
                 </a>
+                {% else %}
+                    <a href="/userprofile/login/" class="blog-user">
+                        登录
+                    </a>
+                {% endif %}
                 <a class="phone-menu">
                     <i></i>
                     <i></i>
@@ -68,11 +76,12 @@
 		                <h1>个人简介</h1>
 
 		                <p>
-		                    交换友链可在留言板留言.请将本站加入友链<br>
-		                    名称：燕十三<br>
-		                    网址：https://www.yanshisan.cn<br>
-		                    图标：https://www.yanshisan.cn/logo.png<br>
-		                    描述：燕十三·一个人的江湖
+		                    <br>交换友链可在
+                            <a href="/message/">留言板</a>留言.请将本站加入友链
+                            <br>名称：Syc
+                            <br>网址：https://www.yanshisan.cn
+                            <br>图标：https://www.yanshisan.cn/logo.png
+                            <br>描述：网上冲浪选手
 		                </p>
 		                <p>
 		                    申请提交后若无其它原因将在24小时内审核,如超过时间还未通过,请私信我.(各种额外因素)
@@ -84,38 +93,24 @@
 	                    <div class="pd-lr-10">
 	                        <a href="https://www.yanshisan.cn" target="_blank">
 	                            <img src="https://www.yanshisan.cn/logo.png">
-	                            <h3>燕十三</h3>
-	                            <p>燕十三·一个人的江湖</p>
+	                            <h3>Syc</h3>
+	                            <p>网上冲浪选手</p>
 	                        </a>
 	                    </div>
 	                </li>
+
+	                {% for link in links %}
 	                <li>
 	                    <div class="pd-lr-10">
-	                        <a href="https://www.yanshisan.cn" target="_blank">
-	                            <img src="https://www.yanshisan.cn/logo.png">
-	                            <h3>燕十三</h3>
-	                            <p>燕十三·一个人的江湖</p>
+	                        <a href={{ link.url }} target="_blank">
+	                            <img src={{ link.img }}>
+	                            <h3>{{ link.name }}</h3>
+	                            <p>{{ link.about }}</p>
 	                        </a>
 	                    </div>
 	                </li>
-	                <li>
-	                    <div class="pd-lr-10">
-	                        <a href="https://www.yanshisan.cn" target="_blank">
-	                            <img src="https://www.yanshisan.cn/logo.png">
-	                            <h3>燕十三</h3>
-	                            <p>燕十三·一个人的江湖</p>
-	                        </a>
-	                    </div>
-	                </li>
-	                <li>
-	                    <div class="pd-lr-10">
-	                        <a href="https://www.yanshisan.cn" target="_blank">
-	                            <img src="https://www.yanshisan.cn/logo.png">
-	                            <h3>燕十三</h3>
-	                            <p>燕十三·一个人的江湖</p>
-	                        </a>
-	                    </div>
-	                </li>
+                    {% endfor %}
+
 		        </ul>
 		    </div>
 		</div>
