@@ -39,12 +39,14 @@ class Article(models.Model):
     label = models.CharField(max_length=32,choices=Label,default='python')
     state = models.CharField(max_length=32,choices=State,default='原创')
     read = models.IntegerField(default=0)
-    picture = models.ImageField(max_length=255,upload_to='article_img',blank=True,null=True)
-
+    picture_url = models.ImageField(max_length=255,upload_to='article_img',blank=True,null=True)
+    # 图片会自动上传到指定路径下，即 MEDIA_ROOT + upload_to
     class Meta:
         ordering = ['-create']
         verbose_name = "博文管理"
         verbose_name_plural = "博文管理"
+
+
 
     def __str__(self):
         return self.title

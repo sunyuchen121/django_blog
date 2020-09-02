@@ -18,6 +18,8 @@ from django.urls import path,include
 from mysite import views
 from comment.views import comment
 import userprofile
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('read/<int:id>/',views.read),
@@ -29,4 +31,4 @@ urlpatterns = [
     path('about/',views.about),
     path('userprofile/',include('userprofile.urls')),
     path('comment/',comment)
-]
+ ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

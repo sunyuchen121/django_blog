@@ -16,15 +16,18 @@ def read(request,id):
     article.save()
     comments = Comment.objects.filter(article_id=id).values('body','createtime','user__username')
     url = request.get_full_path()
-    context = {'article':article,'comments':comments,'url':url}
-
+    error = ''
+    key = request.GET.get('key')
+    if key:
+        error = '输入内容不能为空'
+    context = {'article': article, 'comments': comments, 'url': url,'error':error}
     return render(request,'read.html',context)
 def article(request):
     # 取出所有博客文章
-    articles = Article.objects.annotate(comment_count = Count('article_comment')).values('title','create','update','body','label','state','read','comment_count','id')
+    articles = Article.objects.annotate(comment_count = Count('article_comment')).values('title','create','update','body','label','state','read','comment_count','id','picture_url')
     key = request.GET.get('key')
     if key:
-        articles = Article.objects.filter(label=key).annotate(comment_count = Count('article_comment')).values('title','create','update','body','label','state','read','comment_count','id')
+        articles = Article.objects.filter(label=key).annotate(comment_count = Count('article_comment')).values('title','create','update','body','label','state','read','comment_count','id','picture_url')
     # 需要传递给模板（templates）的对象
     hots = Article.objects.values('id','title').order_by('-read')
     hots = hots[0:4]
@@ -41,13 +44,20 @@ def link(request):
     return render(request,'link.html',context)
 def message(request):
     if request.method == 'GET':
+        error = ''
+        key = request.GET.get('key')
+        if key:
+            error = '留言内容不能为空'
         messages = Message.objects.values('body','create','user__username')
-        context = {'messages':messages}
+        context = {'messages':messages,'error':error}
     elif request.method == 'POST':
         data = request.POST
-        body,user = data['message_body'],request.session.get('_auth_user_id')
-        Message.objects.create(user_id=user,body=body)
-        return redirect('/message/')
+        if data['message_body']:
+            body,user = data['message_body'],request.session.get('_auth_user_id')
+            Message.objects.create(user_id=user,body=body)
+            return redirect('/message/')
+        else:
+            return redirect('/message/?key=1')
     return render(request,'message.html',context)
 def about(request):
     links = Link.objects.all()
