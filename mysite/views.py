@@ -11,7 +11,7 @@ def index(request):
     context = {'articles':articles}
     return render(request,'index.html',context)
 def read(request,id):
-    article = Article.objects.get(id = id)
+    article = Article.objects.get(id=id) #单独获取年月日的操作在前端实现
     article.read += 1
     article.save()
     comments = Comment.objects.filter(article_id=id).values('body','createtime','user__username')

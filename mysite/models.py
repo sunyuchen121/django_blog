@@ -47,7 +47,6 @@ class Article(models.Model):
         verbose_name_plural = "博文管理"
 
 
-
     def __str__(self):
         return self.title
 

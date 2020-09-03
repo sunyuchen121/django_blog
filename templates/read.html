@@ -68,9 +68,9 @@
                                 </p>
                             </aside>
                             <div class="time mt10" style="padding-bottom:0;">
-                                <span class="day">22</span>
-                                <span class="month fs-18">5<small class="fs-14">月</small></span>
-                                <span class="year fs-18">2018</span>
+                                <span class="day">{{ article.create | date:"d" }}</span>
+                                <span class="month fs-18">{{ article.create | date:"m" }}<small class="fs-14">月</small></span>
+                                <span class="year fs-18">{{ article.create | date:"Y" }}</span>
                             </div>
                             <div class="content artiledetail" style="border-bottom: 1px solid #e1e2e0; padding-bottom: 20px;">
                                 <p style="word-wrap:break-word; word-break:normal;">{{ article.body }}</p>
