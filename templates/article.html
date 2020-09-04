@@ -134,20 +134,13 @@
 					    <h5 class="other-item-title">置顶推荐</h5>
 					    <div class="inner">
 					        <ul class="hot-list-article">
-
-					                <li> <a href="/Blog/Read/9">2018最新版QQ音乐api调用</a></li>
-
+                                    {% for i in recommend %}
+					                <li> <a href="/read/{{ i.id }}">{{ i.title }}</a></li>
+                                    {% endfor %}
 					        </ul>
 					    </div>
 					</div>
 					<div class="other-item">
-					    <h5 class="other-item-title">最近访客</h5>
-					    <div class="inner">
-					        <dl class="vistor">
-
-					                <dd><a href="javasript:;"><img src="https://thirdqq.qlogo.cn/qqapp/101465933/28B021E0F5AF0A4B9B781A24329FE897/100"><cite>如初</cite></a></dd>
-					        </dl>
-					    </div>
 					</div>
 		        </div>
 		    </div>
@@ -158,10 +151,10 @@
             <div class="copyright">
                 <div class="info">
                     <div class="contact">
-                        <a href="javascript:void(0)" class="github" target="_blank"><i class="fa fa-github"></i></a>
-                        <a href="https://wpa.qq.com/msgrd?v=3&uin=930054439&site=qq&menu=yes" class="qq" target="_blank" title="930054439"><i class="fa fa-qq"></i></a>
-                        <a href="https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=gbiysbG0tbWyuMHw8K-i7uw" class="email" target="_blank" title="930054439@qq.com"><i class="fa fa-envelope"></i></a>
-                        <a href="javascript:void(0)" class="weixin"><i class="fa fa-weixin"></i></a>
+                        <a href="https://github.com/sunyuchen121" class="github" target="_blank"><i class="fa fa-github"></i></a>
+                        <a href="tencent://QQInterLive/?Cmd=2&Uin=1746950509" class="qq" target="_blank" title="930054439"><i class="fa fa-qq"></i></a>
+                        <a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=WWhubW9gbGlsaWAZKCh3OjY0" class="email" target="_blank" title="930054439@qq.com"><i class="fa fa-envelope"></i></a>
+                        <a  class="weixin"><i class="fa fa-weixin"></i></a>
                     </div>
                     <p class="mt05">
                         Copyright &copy; 2018-2018 燕十三 All Rights Reserved V.1.0.0 蜀ICP备18008600号

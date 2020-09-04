@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Article,Link,Message,Diary
 from comment.models import Comment
 from django.db.models import Count
+from .models import User
 # Create your views here.
 
 
@@ -27,11 +28,11 @@ def article(request):
     articles = Article.objects.annotate(comment_count = Count('article_comment')).values('title','create','update','body','label','state','read','comment_count','id','picture_url')
     key = request.GET.get('key')
     if key:
-        articles = Article.objects.filter(label=key).annotate(comment_count = Count('article_comment')).values('title','create','update','body','label','state','read','comment_count','id','picture_url')
+        articles = articles.filter(label=key)
     # 需要传递给模板（templates）的对象
-    hots = Article.objects.values('id','title').order_by('-read')
-    hots = hots[0:4]
-    context = {'articles': articles,'hots':hots}
+    hots,recommend = Article.objects.values('id','title').order_by('-read'),Article.objects.values('id','title').order_by('-update')
+    hots,recommend = hots[0:4],recommend[0:4]
+    context = {'articles': articles,'hots':hots,'recommend':recommend}
     # render函数：载入模板，并返回context对象
     return render(request,'article.html',context)
 def diary(request):
