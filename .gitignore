@@ -1,4 +1,6 @@
-
+/static/image/*
+/static_collect/image/*
+/media/*
 venv
 .idea
 myblog/settings.py
