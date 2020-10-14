@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="{% static "css/nprogress.css"%}" />
     <link rel="stylesheet" href="{% static "css/message.css"%}" />
     <link rel="stylesheet" href="{% static "css/blog.css"%}" />
+
+
 </head>
 <body>
     <div class="header">
@@ -73,7 +75,7 @@
                                 <span class="year fs-18">{{ article.create | date:"Y" }}</span>
                             </div>
                             <div class="content artiledetail" style="border-bottom: 1px solid #e1e2e0; padding-bottom: 20px;">
-                                <p style="word-wrap:break-word; word-break:normal;">{{ article.body }}</p>
+                                <p style="word-wrap:break-word; word-break:normal;">{{ article.body|safe }}</p>
                                 <div class="copyright mt20">
                                     <p class="f-toe fc-black">
                                         非特殊说明，本文版权归 Syc 所有，转载请注明出处.
@@ -104,14 +106,21 @@
                             <fieldset class="layui-elem-field layui-field-title">
                                 <legend>发表评论</legend>
                                 <div class="layui-field-box">
+
                                     <div class="leavemessage" style="text-align:initial">
                                         {% if user.is_authenticated %}
+
                                         <form class="layui-form blog-editor" action="/comment/" method="post">
+
                                             {% csrf_token %}
+
+
                                             <input type="hidden" name="article_id" id="article_id" value={{ article.id }}>
                                             <div class="layui-form-item">
                                                 <textarea type="text" class="form-control" id="body" name="body"  style="resize:none;margin: 0px; width: 1200px; height: 206px; border:solid 1px rgb(220,220,220);" placeholder="对于本文的评价在此输入"></textarea>
+
                                             </div>
+
                                             <p style="color: red"> {{ error }}</p>
                                             <div class="layui-form-item">
                                                 <button class="layui-btn" lay-submit="formLeaveMessage" lay-filter="formLeaveMessage">提交评论</button>
@@ -124,21 +133,64 @@
                                 </div>
                             </fieldset>
                             <ul class="blog-comment" id="blog-comment" page-count="3">
-                                {%  for comment in comments %}
+                                {%  for pcomment in pcomments %}
                                 <li>
+
                                     <div class="comment-parent">
                                         <a name="remark-243"></a>
                                         <img src="/static/image/message.png">
                                         <div class="info">
-                                            <span class="username">{{ comment.user__username }}</span>
+                                            <span class="username">{{ pcomment.user__username }}</span>
                                         </div>
 
                                         <div class="comment-content">
-                                            <pre style="white-space: pre-wrap;word-wrap: break-word;font-size: 18px; font-family:'SimSun';color: rgb(105,105,105);">{{ comment.body }}</pre>
+                                            <pre style="white-space: pre-wrap;word-wrap: break-word;font-size: 15px; font-family:'SimSun';">{{ pcomment.body|safe }}</pre>
                                         </div>
                                         <p class="info info-footer">
-                                            <span class="comment-time">{{ comment.createtime }}</span>
+                                            <span class="comment-time">{{ pcomment.createtime }}</span>
+                                        <a href="javascript:;" class="btn-reply" data-targetid={{ pcomment.user_id }} data-targetname={{ pcomment.user__username }}>回复</a>
                                         </p>
+                                    </div>
+                                    {% for ccomment in ccomments %}
+                                        {% if ccomment.parent_id == pcomment.id %}
+                                    <hr>
+                                    <div class="comment-child">
+                                        <a name="reply-214"></a>
+                                        <img src="/static/image/message.png">
+                                        <div class="info">
+                                            <span class="username">{{ ccomment.user__username }}</span>
+                                            <span style="padding-right:0;margin-left:-5px;">回复</span>
+                                            <span class="username">{{ ccomment.reply_to__username }}</span>
+                                            <pre style="white-space: pre-wrap;word-wrap: break-word;">{{ ccomment.body|safe }}</pre>
+                                        </div>
+                                        <p class="info">
+                                            <span class="comment-time">{{ ccomment.createtime }}</span>
+                                            <a href="javascript:;" class="btn-reply" data-targetid={{ ccomment.user_id }} data-targetname={{ ccomment.user__username }}>回复</a>
+                                        </p>
+                                    </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <div class="replycontainer layui-hide">
+                                        {% if user.is_authenticated %}
+                                        <form class="layui-form" action="/comment/" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="parent" value={{ pcomment.id }}>
+                                                <input type="hidden" name="article_id" value={{ article.id }}>
+                                                <input type="hidden" name="targetUserId" value={{targetId}}>
+                                                <div class="layui-form-item">
+                                                    <textarea id="body" name="body" lay-verify="body" class="layui-textarea" style="min-height:80px;width: 100%"></textarea>
+
+                                                    <p style="color: red"> {{ error2 }}</p>
+
+                                                </div>
+
+                                                <div class="layui-form-item">
+                                                    <button class="layui-btn layui-btn-xs" lay-submit="formReply" lay-filter="formReply">提交</button>
+                                                </div>
+                                        {% else %}
+                                            <strong>请点击右上角登陆后回复评论</strong>
+                                        {% endif %}
+                                        </form>
                                     </div>
                                 </li>
                                 {% endfor %}

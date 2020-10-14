@@ -15,6 +15,7 @@
     <link rel="stylesheet" href= "{% static "css/gloable.css"%}"/>
     <link rel="stylesheet" href= "{% static "css/nprogress.css"%}"/>
     <link rel="stylesheet" href= "{% static "css/blog.css"%}"/>
+
 </head>
 <body>
     <div class="header">
@@ -66,7 +67,7 @@
 								<a href="/read/{{ article.id }}" class="cover img-light">
 									<img src='{{ MEDIA_URL }}{{ article.picture_url }}'>
 								</a>
-								<p style="word-wrap:break-word; word-break:normal;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 5; overflow: hidden;">{{ article.body }}</p>
+								<pre style="white-space: pre-wrap;word-wrap: break-word;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 5; overflow: hidden;">{{ article.know }}</pre>
 							</div>   
 							<div class="read-more">       
 								<a href="/read/{{ article.id }}" class="fc-black f-fwb">阅读全文</a>
