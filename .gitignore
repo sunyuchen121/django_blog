@@ -1,0 +1,6 @@
+
+venv
+.idea
+myblog/settings.py
+db.sqlite3
+myblog/__pycache__/
